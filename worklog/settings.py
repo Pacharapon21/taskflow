@@ -25,7 +25,12 @@ SECRET_KEY = 'django-insecure-qys4%e-wtos50=n169*pg+n23o#53cvt#!6gj418-=u_n*dp6%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'taskflow-5kmqz3o6h-pacharapon21s-projects.vercel.app',
+    '.vercel.app',
+    'localhost',
+    '127.0.0.1',
+]
 
 
 # Application definition
@@ -42,6 +47,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -76,31 +82,27 @@ WSGI_APPLICATION = 'worklog.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 import os
-try:
-    import dj_database_url
-    if os.environ.get('DATABASE_URL'):
-        DATABASES = {
-            'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
-        }
-    else:
-        DATABASES = {
-            'default': {
-                'ENGINE': 'django.db.backends.sqlite3',
-                'NAME': BASE_DIR / 'db.sqlite3',
-            }
-        }
-except ImportError:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
+# try:
+#     import dj_database_url
+#     if os.environ.get('DATABASE_URL'):
+ 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres.ssfscqarsmgpuoxozgdx',
+        'PASSWORD': os.environ.get('SUPABASE_DB_PASSWORD', 'as0985593406'),
+    'HOST': 'aws-1-ap-southeast-1.pooler.supabase.com',
+        'PORT': '5432',
     }
+}
+
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'tasks' / 'static',
 ]
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 
 # Password validation
